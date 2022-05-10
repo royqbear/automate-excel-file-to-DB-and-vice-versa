@@ -18,9 +18,9 @@ class Db_conn:
         # connect to DB
         try:
             self.conn = pymysql.connections.Connection(host='localhost',
-                                                     database='lics',
+                                                     database='your DB name',
                                                      user='root',
-                                                     password='1qa1qa1qa')
+                                                     password='enter root pass')
         except Exception:
             print("Connection did not succeed")
         else:
@@ -78,8 +78,8 @@ class Db_conn:
                 pass
 
     def send_mail(self,body):
-        sent_from = "pythroy@gmail.com"
-        to_mail = 'roy.israelit@gmail.com'
+        sent_from = "your mail"
+        to_mail = 'recipient@gmail.com'
         msg = MIMEMultipart()
         msg['From'] = sent_from
         msg['To'] = to_mail
@@ -87,7 +87,7 @@ class Db_conn:
         # body = 'See attached file for expiring licenses'
         # attach the body with the msg instance
         msg.attach(MIMEText(body, 'plain'))
-        filename = (r"C:\Users\royqb\Desktop\python_learning\softwaremgmt\lic1.xlsx")
+        filename = ("enter attachment file path")
         attachment = open(filename, "rb")
         # instance of MIMEBase and named as p
         p = MIMEBase('application', 'octet-stream')
@@ -105,7 +105,7 @@ class Db_conn:
         s.starttls()
 
         # Authentication from sql hashed
-        s.login(sent_from, "@WS2ws2ws")
+        s.login(sent_from, "mail pass")
 
         # Converts the Multipart msg into a string
         text = msg.as_string()
