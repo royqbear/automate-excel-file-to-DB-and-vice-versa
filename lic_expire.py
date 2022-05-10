@@ -12,8 +12,8 @@ class Mail:
     def __init__(self):
         pass
     def send_mail(self, body):
-        sent_from = "pythroy@gmail.com"
-        to_mail = 'roy.israelit@gmail.com'
+        sent_from = "enter your mail"
+        to_mail = 'recipient@gmail.com'
         msg = MIMEMultipart()
         msg['From'] = sent_from
         msg['To'] = to_mail
@@ -21,7 +21,7 @@ class Mail:
         # body = 'See attached file for expiring licenses'
         # attach the body with the msg instance
         msg.attach(MIMEText(body, 'plain'))
-        filename = (r"C:\Users\royqb\Desktop\python_learning\softwaremgmt\lic1.xlsx")
+        filename = ("attachemtn file path")
         attachment = open(filename, "rb")
         # instance of MIMEBase and named as p
         p = MIMEBase('application', 'octet-stream')
@@ -39,7 +39,7 @@ class Mail:
         s.starttls()
 
         # Authentication from sql hashed
-        s.login(sent_from, "@WS2ws2ws")
+        s.login(sent_from, "mail pass")
 
         # Converts the Multipart msg into a string
         text = msg.as_string()
