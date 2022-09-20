@@ -9,7 +9,7 @@ from email import encoders
 from openpyxl.styles import Font
 import pandas as pd
 
-
+#creating DB connection
 class Db_conn:
     BODY_OK = "Plese see attahced file for expiring licenses.\nto stop this service please close 'expiring_licenses' from services.msc"
     BODY_NOT_OK = '''File is opened therefore latest version attached,\nmake sure the file is closed ('lic1.xlsx')
@@ -52,7 +52,7 @@ class Db_conn:
         self.conn.commit()
         self.data()
 
-
+#extract data from excel to DB
     def data(self):
         rows = self.ws.iter_rows(min_row=2, max_row=len(self.ws['A']), min_col=1, max_col=12)
         for row in rows:
@@ -76,7 +76,7 @@ class Db_conn:
                 self.conn.commit()
             except Exception:
                 pass
-
+#sending warning mail for licenses that about to be expired
     def send_mail(self,body):
         sent_from = "your mail"
         to_mail = 'recipient@gmail.com'
@@ -115,7 +115,8 @@ class Db_conn:
         print('Mail sent successfully')
         # terminating the session
         s.quit()
-
+        
+#extract data from db to insert excel file
     def get_data_fromDB(self):
         # expiring = ('select * from licenses where time_left <30 order by time_left asc')
         expiring = ('select company,lic_name,supplier,frequency,last_update,next_update,time_left from lics.licenses where time_left <30 order by time_left asc')
@@ -160,7 +161,7 @@ class Db_conn:
             self.send_mail(body)
         else:
             self.send_mail(body)
-
+#short version to the purpose of the code without using DB
     def get_excel_with_pandas(self):
         data = pd.read_excel(open('lic.xlsx', 'rb'),
                       sheet_name='lic')
@@ -177,7 +178,7 @@ class Db_conn:
             body = self.BODY_OK
             self.send_mail(body)
 
-
+#driver code
 def main():
     db = Db_conn()
     # db.connection()
